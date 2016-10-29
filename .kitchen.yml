@@ -1,0 +1,26 @@
+driver:
+  name: docker
+  use_sudo: false
+
+provisioner:
+  name: ansible_push
+  playbook: priv/ansible/playbook.yml
+  idempotency_test: true
+  # Add more v's for more verbose
+  verbose: ""
+
+platforms:
+  - name: ubuntu-14-docker
+    driver_config:
+      use_cache: true
+      image: ubuntu:14.04
+
+suites:
+  - name: single
+    driver:
+      hostname: single
+      forward:
+        - 4321:80
+    provisioner:
+      mygroup:
+        - grpcserver

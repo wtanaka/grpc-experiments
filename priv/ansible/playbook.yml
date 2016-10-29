@@ -1,0 +1,4 @@
+---
+- hosts: grpcserver
+  roles:
+    - {role: geerlingguy.nginx, sudo: yes}
