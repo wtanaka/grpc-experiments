@@ -2,6 +2,9 @@
 converge: bundler galaxy
 	bundle exec kitchen $@
 
+login: bundler galaxy
+	bundle exec kitchen $@
+
 list: bundler galaxy
 	bundle exec kitchen $@
 
