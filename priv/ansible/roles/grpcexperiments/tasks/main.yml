@@ -9,3 +9,7 @@
 - name: Install self-signed cert
   template: src=server.crt dest=/etc/nginx/server.crt
   notify: reload nginx
+
+- name: Install concatenated pem
+  template: src=server.pem dest=/etc/nginx/server.pem
+  notify: restart haproxy

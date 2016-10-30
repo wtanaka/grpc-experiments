@@ -3,4 +3,5 @@
 - hosts: grpcserver
   roles:
     - {role: grpcexperiments, sudo: yes}
+    - {role: wtanaka.haproxy}
     - {role: geerlingguy.nginx, sudo: yes}
