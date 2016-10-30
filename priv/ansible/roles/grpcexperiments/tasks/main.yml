@@ -1,0 +1,6 @@
+---
+- name: Install private TLS key
+  template: src=server.key dest=/etc/nginx/server.key
+
+- name: Install self-signed cert
+  template: src=server.crt dest=/etc/nginx/server.crt
