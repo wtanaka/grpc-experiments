@@ -10,10 +10,10 @@ provisioner:
   verbose: ""
 
 platforms:
-  - name: ubuntu-14-docker
+  - name: ubuntu-16-docker
     driver_config:
       use_cache: true
-      image: ubuntu:14.04
+      image: ubuntu:16.04
 
 suites:
   - name: single

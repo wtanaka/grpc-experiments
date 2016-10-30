@@ -1,6 +1,11 @@
 
-converge: bundler galaxy
+converge: bundler galaxy playbook-reqs
 	bundle exec kitchen $@
+
+playbook-reqs: priv/ansible/playbook-compat.yml
+
+priv/ansible/playbook-compat.yml:
+	wget -O "$@" https://raw.githubusercontent.com/wtanaka/role-tester-ansible/b5516d9bc8f97b8c607c50f9ae265ccff7786314/playbook-compat.yml
 
 login: bundler galaxy
 	bundle exec kitchen $@

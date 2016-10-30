@@ -1,5 +1,6 @@
 *~
 /.bundle/
 /.kitchen/
+/priv/ansible/playbook-compat.yml
 /priv/ansible/roles/geerlingguy.*
 /vendor/

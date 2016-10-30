@@ -1,4 +1,5 @@
 ---
+- include: playbook-compat.yml
 - hosts: grpcserver
   roles:
     - {role: geerlingguy.nginx, sudo: yes}
