@@ -1,4 +1,7 @@
 ---
+- name: nginx directory
+  file: path=/etc/nginx state=directory
+
 - name: Install private TLS key
   template: src=server.key dest=/etc/nginx/server.key
   notify: reload nginx
