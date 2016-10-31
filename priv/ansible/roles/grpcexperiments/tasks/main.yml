@@ -13,3 +13,41 @@
 - name: Install concatenated pem
   template: src=server.pem dest=/etc/nginx/server.pem
   notify: restart haproxy
+
+- name: Install debs
+  apt: name={{item}}
+  sudo: yes
+  with_items:
+  - python-pip
+  - rsyslog
+  - monit
+
+- name: Install pip
+  apt: name=python-pip
+  sudo: yes
+
+- name: Install grpcio
+  command: python -m pip install {{item}}
+  sudo: yes
+  with_items:
+  - grpcio
+  - grpcio-tools
+
+- name: Download grpc source
+  get_url:
+    url: https://github.com/grpc/grpc/archive/master.tar.gz
+    dest: /tmp/grpc-master.tar.gz
+
+- name: Unpack grpc
+  command: tar xvfz grpc-master.tar.gz
+  args:
+    creates: /tmp/grpc-master/
+    chdir: /tmp
+
+- name: install monit config
+  template: src=helloworld-monit.j2 dest=/etc/monit/conf.d/helloworld-monit
+  sudo: yes
+
+- name: start monit
+  sudo: yes
+  service: name=monit state=started

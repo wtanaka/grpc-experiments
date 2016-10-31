@@ -20,8 +20,11 @@ suites:
     driver:
       hostname: single
       forward:
-        - 1180:80
-        - 11443:443
+        - 1080:80
+        - 10443:443
+        - 11443:1443
+        - 12443:2443
+        - 50051:50051
     provisioner:
       mygroup:
         - grpcserver

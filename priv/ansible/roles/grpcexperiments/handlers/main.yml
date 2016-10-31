@@ -1,0 +1,4 @@
+---
+- name: restart grpc-helloworld
+  service: name=grpc-helloworld state=restarted
+  sudo: yes

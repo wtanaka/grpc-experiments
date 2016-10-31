@@ -7,40 +7,47 @@ nginx_vhosts:
     root: "/var/www/html"
     index: "index.php index.html index.htm index.nginx-debian.html"
 
-  - listen: "22443 ssl http2"
+  - listen: "2281 http2 proxy_protocol"
+    server_name: localhost
+    root: "/var/www/html"
+    index: "index.php index.html index.htm index.nginx-debian.html"
+
+  - listen: "2443 ssl http2"
     server_name: localhost
     extra_parameters: |
       ssl_certificate /etc/nginx/server.crt;
       ssl_certificate_key /etc/nginx/server.key;
 
-#haproxy_frontends:
-#- name: http
-#  lines:
-#  - log global
-#  - mode http
-#  - bind :80
-#  - default_backend http_cluster
-#- name: secure
-#  lines:
-#  - log global
-#  - mode tcp
-#  - bind *:443 ssl no-sslv3 crt /etc/nginx/server.pem ciphers TLSv1.2 alpn h2,http/1.1
-#  - use_backend spdy_cluster if { ssl_fc_alpn -i h2 }
-#  - default_backend http_cluster
-#haproxy_backends:
-#- name: spdy_cluster
-#  lines:
-#  - mode tcp
-#  - http-request add-header X-Forwarded-Proto https
-#  - log global
-#  - server localhost 127.0.0.1:22443 check send-proxy
-#- name: http_cluster
-#  lines:
-#  - log global
-#  - server localhost 127.0.0.1:2280 check
+haproxy_frontends:
+- name: http
+  lines:
+  - log global
+  - mode http
+  - bind :80
+  - default_backend http_cluster
+- name: secure
+  lines:
+  - log global
+  - mode tcp
+  - bind *:443 ssl crt /etc/nginx/server.pem alpn h2,http/1.1
+  - http-response set-header Strict-Transport-Security "max-age=16000000; includeSubDomains; preload;"
+  - use_backend spdy_cluster if { ssl_fc_alpn -i h2 }
+  - default_backend http_cluster
+haproxy_backends:
+- name: spdy_cluster
+  lines:
+  - mode tcp
+  - http-request add-header X-Forwarded-Proto https
+  - log global
+  - server proxy_localhost 127.0.0.1:2281 send-proxy
+- name: http_cluster
+  lines:
+  - log global
+  - server http_localhost 127.0.0.1:2280
+
 haproxy_listens:
 - name: http2
   lines:
-  - bind :443
+  - bind :1443
   - mode tcp
-  - server localhost localhost:22443
+  - server localhost localhost:2443
