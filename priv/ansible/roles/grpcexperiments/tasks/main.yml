@@ -14,6 +14,12 @@
   template: src=server.pem dest=/etc/nginx/server.pem
   notify: restart haproxy
 
+- name: Install py files
+  template: src={{item}} dest=/tmp
+  with_items:
+  - greeter_server.py
+  - helloworld_pb2.py
+
 - name: Install debs
   apt: name={{item}}
   sudo: yes

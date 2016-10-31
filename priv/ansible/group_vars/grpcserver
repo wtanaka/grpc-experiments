@@ -51,3 +51,13 @@ haproxy_listens:
   - bind :1443
   - mode tcp
   - server localhost localhost:2443
+- name: grpc_insecure
+  lines:
+  - bind :44451
+  - mode tcp
+  - server localhost localhost:50051
+- name: grpc_secure
+  lines:
+  - bind :44452
+  - mode tcp
+  - server localhost localhost:50052

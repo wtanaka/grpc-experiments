@@ -3,4 +3,5 @@
 /.kitchen/
 /priv/ansible/playbook-compat.yml
 /priv/ansible/roles/geerlingguy.*
+*.pyc
 /vendor/
